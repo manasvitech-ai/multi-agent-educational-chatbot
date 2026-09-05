@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1eObWzbaNecMFN3f0SonN8BFUbArTUs6i
 """
 
-!pip install -q langgraph langchain-groq langchain-community langchain-tavily langchain-core langchain wikipedia
+
 
 import os
 from getpass import getpass
