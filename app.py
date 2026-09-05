@@ -965,12 +965,7 @@ print("Agent:", category)
 print("====================================")
 print(answer)
 
-import gradio as gr
 
-d
-
-    history.append({
-        "role": "user",
 
 import gradio as gr
 
