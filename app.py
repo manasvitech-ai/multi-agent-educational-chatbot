@@ -632,7 +632,7 @@ while True:
         print("\n❌ Something went wrong.")
         print("Error:", e)
 
-!pip install -q gradio
+
 
 import gradio as gr
 
