@@ -105,22 +105,6 @@ answer = kids_chatbot(question)
 print("🧒 Child:", question)
 print("\n🤖 Kids Chatbot:", answer)
 
-# ==========================================
-# CHAT WITH THE KIDS EDUCATIONAL CHATBOT
-# ==========================================
-
-print("🤖 Kids Educational Chatbot")
-print("Ask me anything! Type 'exit' to stop.\n")
-
-while True:
-    question = input("🧒 You: ")
-
-    if question.lower() == "exit":
-        print("🤖 Goodbye! Keep learning and stay curious! 🌟")
-        break
-
-    answer = kids_chatbot(question)
-
     print("\n🤖 Chatbot:", answer)
     print()
 
