@@ -1,0 +1,506 @@
+# 🤖 Multi-Agent Educational Chatbot
+
+An intelligent **multi-agent AI educational chatbot** that automatically understands a user's question and routes it to the most appropriate specialized AI agent — **Study, Coding, or General**.
+
+Built using **Python, LangGraph, LangChain, Groq LLMs, and Gradio**, the project demonstrates how multiple specialized AI agents can work together through an intelligent routing architecture.
+
+---
+
+## ✨ Features
+
+* 🧠 **Intelligent Question Routing**
+  A Manager Agent analyzes every user query and determines whether it belongs to Study, Coding, or General conversation.
+
+* 📚 **Study Agent**
+  Explains academic concepts in a simple, structured, and understandable manner.
+
+* 💻 **Coding Agent**
+  Helps with programming questions, code generation, debugging, algorithms, and technical concepts.
+
+* 🌐 **General Agent**
+  Handles general-purpose questions, career-related queries, daily-life questions, and topics outside Study and Coding.
+
+* 🤖 **Multi-Agent Architecture**
+  Different specialized agents collaborate through a central routing mechanism instead of relying on a single generic prompt.
+
+* 💬 **Interactive Chat Interface**
+  A user-friendly web interface is created using Gradio.
+
+* 🎨 **Custom UI**
+  The chatbot includes a customized interface with agent descriptions, example questions, architecture information, and a clean layout.
+
+* ⚡ **Groq-Powered LLMs**
+  Uses Groq-hosted language models through LangChain for fast AI responses.
+
+* 🔗 **LangGraph Integration**
+  Uses LangGraph to define and manage agent workflows and state-based execution.
+
+---
+
+## 🏗️ System Architecture
+
+```text
+                         👤 User
+                            │
+                            ▼
+                  ┌───────────────────┐
+                  │   Gradio UI       │
+                  │  Chat Interface   │
+                  └─────────┬─────────┘
+                            │
+                            ▼
+                  ┌───────────────────┐
+                  │  🧠 Manager Agent │
+                  │ Question Routing  │
+                  └─────────┬─────────┘
+                            │
+             ┌──────────────┼──────────────┐
+             ▼              ▼              ▼
+      ┌────────────┐ ┌────────────┐ ┌────────────┐
+      │ 📚 Study   │ │ 💻 Coding  │ │ 🌐 General │
+      │   Agent    │ │   Agent    │ │   Agent    │
+      └──────┬─────┘ └──────┬─────┘ └──────┬─────┘
+             │              │              │
+             └──────────────┼──────────────┘
+                            ▼
+                   🤖 AI Generated
+                       Response
+```
+
+### How it works
+
+1. The user enters a question through the Gradio interface.
+2. The **Manager Agent** analyzes the question.
+3. The Manager classifies it into one of three categories:
+
+   * `STUDY`
+   * `CODING`
+   * `GENERAL`
+4. The question is forwarded to the corresponding specialized agent.
+5. The selected agent generates an appropriate response using a Groq-powered LLM.
+6. The response is displayed in the chatbot interface.
+
+---
+
+## 🧩 Agents
+
+### 🧠 Manager Agent
+
+The Manager Agent acts as the **router** of the system.
+
+It classifies incoming questions into:
+
+| Category   | Purpose                                            |
+| ---------- | -------------------------------------------------- |
+| 📚 STUDY   | Academic and educational questions                 |
+| 💻 CODING  | Programming and technical questions                |
+| 🌐 GENERAL | General, career, placement, and everyday questions |
+
+Example:
+
+```text
+"What is photosynthesis?"
+        ↓
+Manager Agent
+        ↓
+STUDY
+        ↓
+Study Agent
+```
+
+---
+
+### 📚 Study Agent
+
+The Study Agent is designed to provide educational explanations.
+
+It focuses on:
+
+* Academic concepts
+* Science
+* Mathematics
+* General educational topics
+* Concept explanations
+* Examples and simplified explanations
+
+Example:
+
+```text
+User:
+"What is photosynthesis?"
+
+Manager:
+STUDY
+
+Study Agent:
+Explains photosynthesis in a simple and structured way.
+```
+
+---
+
+### 💻 Coding Agent
+
+The Coding Agent specializes in programming and technical queries.
+
+It can help with:
+
+* Programming concepts
+* Code generation
+* Debugging
+* Data structures
+* Algorithms
+* Programming examples
+* Technical explanations
+
+If no programming language is specified, the agent is instructed to use **Python by default**.
+
+Example:
+
+```text
+User:
+"Write a Python program to reverse a string."
+
+Manager:
+CODING
+
+Coding Agent:
+Provides the program and explains it.
+```
+
+---
+
+### 🌐 General Agent
+
+The General Agent handles questions that don't belong to Study or Coding.
+
+Examples include:
+
+* Career questions
+* Placement preparation
+* General knowledge
+* Everyday questions
+* Non-technical queries
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology                | Purpose                                         |
+| ------------------------- | ----------------------------------------------- |
+| 🐍 Python                 | Core programming language                       |
+| 🦜 LangChain              | LLM integration and agent logic                 |
+| 🔀 LangGraph              | State-based AI workflow and agent orchestration |
+| ⚡ Groq                    | LLM inference                                   |
+| 🤖 Llama / GPT-OSS models | Language models                                 |
+| 🎨 Gradio                 | Web-based chatbot interface                     |
+| 🔐 Environment Variables  | API key configuration                           |
+
+---
+
+## 📁 Project Structure
+
+```text
+multiagent-educational-chatbot/
+│
+├── .devcontainer/
+│
+├── app.py
+│
+├── requirements.txt
+│
+└── README.md
+```
+
+### `app.py`
+
+Contains the complete application logic, including:
+
+* LLM configuration
+* Manager Agent
+* Study Agent
+* Coding Agent
+* General Agent
+* Question routing
+* LangGraph workflow
+* Gradio frontend
+* Custom UI styling
+
+### `requirements.txt`
+
+Contains the Python dependencies required to run the application.
+
+---
+
+## 🔑 API Keys
+
+The application uses API keys for external AI services.
+
+You need:
+
+* **Groq API Key**
+* **Tavily API Key** if Tavily functionality is enabled/used in the final version
+
+### Recommended configuration
+
+For local development, configure your keys as environment variables:
+
+```bash
+GROQ_API_KEY=your_groq_api_key
+TAVILY_API_KEY=your_tavily_api_key
+```
+
+> ⚠️ Never commit API keys directly to GitHub.
+
+Add a `.env` file to `.gitignore` if you use one locally.
+
+---
+
+## 🚀 Installation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/multiagent-educational-chatbot.git
+```
+
+```bash
+cd multiagent-educational-chatbot
+```
+
+### 2. Create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+Activate it on Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+On macOS/Linux:
+
+```bash
+source venv/bin/activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+Make sure the requirements include the packages actually used by the application, particularly:
+
+```text
+gradio
+langgraph
+langchain-groq
+langchain-community
+langchain-tavily
+langchain-core
+wikipedia
+groq
+```
+
+---
+
+## ▶️ Running the Application
+
+After configuring the required API keys:
+
+```bash
+python app.py
+```
+
+The Gradio application will start and provide a web-based chatbot interface.
+
+---
+
+## 💻 Example Queries
+
+Try asking:
+
+```text
+What is photosynthesis?
+```
+
+```text
+Explain Newton's first law in simple words.
+```
+
+```text
+Write a Python program to reverse a string.
+```
+
+```text
+How can I prepare for placements?
+```
+
+The Manager Agent automatically determines which specialized agent should handle each question.
+
+---
+
+## 🔄 Example Workflow
+
+### Study Query
+
+```text
+"What is photosynthesis?"
+        ↓
+Manager Agent
+        ↓
+STUDY
+        ↓
+Study Agent
+        ↓
+Educational Explanation
+```
+
+### Coding Query
+
+```text
+"Write a Python program to find factorial."
+        ↓
+Manager Agent
+        ↓
+CODING
+        ↓
+Coding Agent
+        ↓
+Code + Explanation
+```
+
+### General Query
+
+```text
+"How can I prepare for placements?"
+        ↓
+Manager Agent
+        ↓
+GENERAL
+        ↓
+General Agent
+        ↓
+Useful Response
+```
+
+---
+
+## 🎨 User Interface
+
+The application includes a Gradio-based interface featuring:
+
+* 🤖 Chatbot interface
+* 📚 Study Agent card
+* 💻 Coding Agent card
+* 🌐 General Agent card
+* 💬 Question input
+* 🚀 Send functionality
+* 🗑️ Clear chat functionality
+* 💡 Example questions
+* 🧠 Architecture explanation
+
+The UI and AI logic are currently contained within the same `app.py` file.
+
+---
+
+## 🧠 Why Multi-Agent Architecture?
+
+A traditional chatbot generally sends every question to the same prompt and model.
+
+This project instead uses a **routing-based multi-agent architecture**.
+
+```text
+Single Agent Approach
+
+User → One Agent → Response
+
+
+Multi-Agent Approach
+
+                 ┌→ Study Agent
+User → Manager ──┼→ Coding Agent
+                 └→ General Agent
+```
+
+This separation makes it easier to:
+
+* Specialize agent behavior
+* Customize prompts for different tasks
+* Improve maintainability
+* Add additional specialized agents
+* Experiment with different models or parameters for different tasks
+
+---
+
+## 🔮 Future Improvements
+
+The project can be extended with:
+
+* 🔍 Real-time web search through Tavily
+* 🧮 Dedicated Mathematics Agent
+* 📝 Exam Preparation Agent
+* 📄 PDF/document-based question answering
+* 🧠 Conversation memory
+* 👤 User-specific learning profiles
+* 📊 Learning progress tracking
+* 🔐 Secure authentication
+* 🌍 Multilingual support
+* 🎤 Voice-based interaction
+* 📱 Responsive mobile UI
+* 🗃️ Vector database / RAG integration
+* ⚙️ Separate backend API and frontend architecture
+* ☁️ Production deployment
+
+---
+
+## ⚠️ Current Project Notes
+
+The current `app.py` was developed iteratively and contains multiple testing blocks and repeated Gradio interfaces.
+
+For a production deployment, the code should ideally be cleaned so that:
+
+* Only the final agent implementations remain
+* Only one Gradio interface is launched
+* API keys are loaded securely from environment variables
+* Unnecessary test loops are removed
+* Dependencies in `requirements.txt` match the actual imports
+* Deployment configuration is added
+
+This would make the project significantly cleaner and more reliable for production use.
+
+---
+
+## 📌 Project Highlights
+
+**Project Type:** AI / Generative AI / Multi-Agent System
+
+**Architecture:** Manager + Specialized Agents
+
+**Interface:** Gradio Web UI
+
+**LLM Provider:** Groq
+
+**Orchestration:** LangGraph
+
+**Framework:** LangChain
+
+**Language:** Python
+
+---
+
+## 👩‍💻 Author
+
+**Your Name**
+
+Built as a project exploring **Generative AI, LLM orchestration, LangGraph, and multi-agent systems**.
+
+---
+
+## ⭐ Future Vision
+
+The long-term goal is to evolve this chatbot from a basic educational assistant into a **complete AI learning platform** where specialized agents can collaborate to teach concepts, solve coding problems, search for information, generate study material, and personalize the learning experience.
+
+If you find the project useful, consider giving the repository a ⭐.
