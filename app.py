@@ -1,4 +1,4 @@
-```python
+
 # ============================================================
 # 🤖 MULTI-AGENT EDUCATIONAL CHATBOT
 # Render-Ready Version
@@ -632,4 +632,4 @@ if __name__ == "__main__":
         server_name="0.0.0.0",
         server_port=port
     )
-```
+
