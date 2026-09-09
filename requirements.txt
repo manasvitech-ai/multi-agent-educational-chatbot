@@ -1,8 +1,5 @@
 gradio
 langgraph
 langchain-groq
-langchain-community
-langchain-tavily
 langchain-core
-wikipedia
-groq
+
