@@ -479,7 +479,7 @@ This can eventually become a unified platform for **learning, coding, exam prepa
 
 ## 👩‍💻 Author
 
-**Riya Chaudhary**
+**Manasvi**
 
 B.Tech — Computer Science Engineering
 
