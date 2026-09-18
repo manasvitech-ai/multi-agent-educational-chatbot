@@ -9,7 +9,7 @@ from typing import TypedDict
 
 from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
-from langgraph.graph import StateGraph, START, END
+
 
 
 # ============================================================
@@ -306,16 +306,7 @@ chatbot_graph = graph_builder.compile()
 # 📚 STUDY LANGGRAPH
 # ============================================================
 
-study_graph_builder = StateGraph(ChatState)
 
-study_graph_builder.add_node("manager", manager_agent)
-study_graph_builder.add_node("study", study_agent)
-
-study_graph_builder.add_edge(START, "manager")
-study_graph_builder.add_edge("manager", "study")
-study_graph_builder.add_edge("study", END)
-
-study_graph = study_graph_builder.compile()
 
 # ============================================================
 # 🌐 WEB API + MODERN HTML/CSS/JS FRONTEND
