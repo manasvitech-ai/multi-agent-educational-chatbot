@@ -272,41 +272,6 @@ def route_question(question: str):
     return category, answer
 
 
-# ============================================================
-# 🧠 LANGGRAPH IMPLEMENTATION
-# ============================================================
-
-def chat_agent(state: ChatState) -> ChatState:
-    """
-    Basic LangGraph chat agent retained from the original project.
-    """
-
-    user_message = state["user_message"]
-
-    response = llm.invoke(user_message)
-
-    return {
-        "user_message": user_message,
-        "response": response.content
-    }
-
-
-# Basic LangGraph chatbot
-graph_builder = StateGraph(ChatState)
-
-graph_builder.add_node("chat_agent", chat_agent)
-
-graph_builder.add_edge(START, "chat_agent")
-graph_builder.add_edge("chat_agent", END)
-
-chatbot_graph = graph_builder.compile()
-
-
-# ============================================================
-# 📚 STUDY LANGGRAPH
-# ============================================================
-
-
 
 # ============================================================
 # 🌐 WEB API + MODERN HTML/CSS/JS FRONTEND
