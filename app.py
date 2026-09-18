@@ -7,7 +7,6 @@
 import os
 from typing import TypedDict
 
-import gradio as gr
 from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
 from langgraph.graph import StateGraph, START, END
@@ -354,270 +353,59 @@ study_graph_builder.add_edge("study", END)
 
 study_graph = study_graph_builder.compile()
 
-
 # ============================================================
-# 🎨 GRADIO UI
-# ============================================================
-
-custom_css = """
-
-/* Main page */
-
-.gradio-container {
-    max-width: 1050px !important;
-    margin: auto !important;
-    padding: 20px !important;
-}
-
-
-/* Main title */
-
-#title {
-    text-align: center;
-    padding: 25px 10px 10px 10px;
-}
-
-#title h1 {
-    font-size: 36px;
-    margin-bottom: 8px;
-}
-
-#title p {
-    font-size: 17px;
-    color: #666;
-}
-
-
-/* Agent cards */
-
-.agent-card {
-    padding: 18px;
-    border-radius: 16px;
-    text-align: center;
-    border: 1px solid #e5e7eb;
-    background: white;
-    min-height: 120px;
-}
-
-.agent-card h2 {
-    margin: 5px;
-}
-
-.agent-card h3 {
-    margin: 5px;
-}
-
-.agent-card p {
-    font-size: 13px;
-    color: #666;
-}
-
-
-/* Footer */
-
-.footer {
-    text-align: center;
-    padding: 15px;
-    color: #777;
-    font-size: 13px;
-}
-
-"""
-
-
-# ============================================================
-# 💬 CHAT FUNCTION
+# 🌐 WEB API + MODERN HTML/CSS/JS FRONTEND
 # ============================================================
 
-def chat(message, history):
+from flask import Flask, jsonify, render_template, request
+
+app = Flask(__name__, template_folder="templates", static_folder="static")
+
+
+@app.get("/")
+def home():
+    """Serve the modern frontend."""
+    return render_template("index.html")
+
+
+@app.get("/health")
+def health():
+    """Simple deployment health check."""
+    return jsonify({"status": "ok"})
+
+
+@app.post("/chat")
+def chat_api():
     """
-    Main Gradio chat function.
+    API endpoint used by the HTML/CSS/JavaScript frontend.
 
-    The Manager Agent classifies the question and sends it
-    to the appropriate specialized agent.
+    The actual answer always comes from the existing multi-agent
+    route_question() function.
     """
+    data = request.get_json(silent=True) or {}
+    message = data.get("message", "")
 
-    if not message or not message.strip():
-        return ""
+    if not isinstance(message, str) or not message.strip():
+        return jsonify({
+            "success": False,
+            "error": "Please enter a question."
+        }), 400
 
     try:
+        category, answer = route_question(message.strip())
 
-        category, answer = route_question(message)
-
-        return f"""
-**🧠 {category} Agent**
-
-{answer}
-"""
+        return jsonify({
+            "success": True,
+            "agent": category,
+            "answer": answer
+        })
 
     except Exception as e:
-
-        return f"""
-**❌ Error**
-
-Something went wrong while processing your question.
-
-`{str(e)}`
-"""
-
-
-# ============================================================
-# 🖥️ FINAL PROFESSIONAL INTERFACE
-# ============================================================
-
-with gr.Blocks(
-    title="Multi-Agent Educational Chatbot",
-    css=custom_css,
-    theme=gr.themes.Soft()
-) as demo:
-
-    # --------------------------------------------------------
-    # Header
-    # --------------------------------------------------------
-
-    gr.HTML("""
-    <div id="title">
-
-        <h1>🤖 Multi-Agent Educational Chatbot</h1>
-
-        <p>
-        An intelligent learning assistant that automatically
-        selects the right AI agent for your question.
-        </p>
-
-    </div>
-    """)
-
-
-    # --------------------------------------------------------
-    # Agent Cards
-    # --------------------------------------------------------
-
-    with gr.Row():
-
-        gr.HTML("""
-        <div class="agent-card">
-
-            <h2>📚</h2>
-
-            <h3>Study Agent</h3>
-
-            <p>
-            Explains academic concepts,
-            science and educational topics.
-            </p>
-
-        </div>
-        """)
-
-        gr.HTML("""
-        <div class="agent-card">
-
-            <h2>💻</h2>
-
-            <h3>Coding Agent</h3>
-
-            <p>
-            Helps with programming,
-            algorithms and coding problems.
-            </p>
-
-        </div>
-        """)
-
-        gr.HTML("""
-        <div class="agent-card">
-
-            <h2>🌐</h2>
-
-            <h3>General Agent</h3>
-
-            <p>
-            Handles everyday questions,
-            career, placement and general information.
-            </p>
-
-        </div>
-        """)
-
-
-    # --------------------------------------------------------
-    # Separator
-    # --------------------------------------------------------
-
-    gr.Markdown("---")
-
-
-    # --------------------------------------------------------
-    # Chat Interface
-    # --------------------------------------------------------
-
-    gr.ChatInterface(
-        fn=chat,
-        title="💬 Ask Your Question",
-        description=(
-            "Type your question below and let the Manager Agent "
-            "choose the most appropriate specialist."
-        ),
-        examples=[
-            "What is photosynthesis?",
-            "Write a Python program to reverse a string.",
-            "How can I prepare for placements?",
-            "Explain Newton's first law in simple words."
-        ]
-    )
-
-
-    # --------------------------------------------------------
-    # Architecture Explanation
-    # --------------------------------------------------------
-
-    gr.Markdown("""
----
-
-### 🧠 How the Chatbot Works
-
-**👤 User Question**
-
-↓
-
-**🧠 Manager Agent**
-
-↓
-
-**📚 Study Agent | 💻 Coding Agent | 🌐 General Agent**
-
-↓
-
-**🤖 AI Generated Response**
-
-The Manager Agent analyzes the user's question and automatically
-routes it to the most appropriate specialized agent.
-
-This multi-agent architecture allows different agents to focus
-on different types of user queries.
-""")
-
-
-    # --------------------------------------------------------
-    # Footer
-    # --------------------------------------------------------
-
-    gr.HTML("""
-    <div class="footer">
-
-        🧠 Multi-Agent AI Architecture
-
-        <br>
-
-        📚 Study • 💻 Coding • 🌐 General
-
-        <br><br>
-
-        Educational AI Assistant
-
-    </div>
-    """)
+        return jsonify({
+            "success": False,
+            "error": "Something went wrong while processing your question.",
+            "details": str(e)
+        }), 500
 
 
 # ============================================================
@@ -625,11 +413,5 @@ on different types of user queries.
 # ============================================================
 
 if __name__ == "__main__":
-
     port = int(os.environ.get("PORT", 7860))
-
-    demo.launch(
-        server_name="0.0.0.0",
-        server_port=port
-    )
-
+    app.run(host="0.0.0.0", port=port)
