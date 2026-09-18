@@ -53,43 +53,7 @@ general_llm = ChatGroq(
 )
 
 
-# ============================================================
-# 🧒 KIDS EDUCATIONAL CHATBOT
-# ============================================================
 
-def kids_chatbot(question: str) -> str:
-    """
-    Provides simple, friendly and educational answers
-    suitable for children.
-    """
-
-    system_prompt = """
-    You are a friendly and educational AI chatbot for children.
-
-    Your job is to:
-    1. Answer children's educational questions.
-    2. Explain difficult topics in very simple language.
-    3. Use examples that children can understand.
-    4. Keep answers friendly, positive and encouraging.
-    5. Avoid complicated technical words unless you explain them.
-    6. Never provide inappropriate, dangerous or adult content.
-    7. If a child asks something unsafe or inappropriate,
-       politely refuse and redirect them to a safe educational topic.
-    8. Encourage curiosity and learning.
-    9. Keep answers reasonably short and easy to read.
-    10. Use emojis occasionally when they make the answer more fun.
-
-    The child may ask questions about subjects such as:
-    Mathematics, Science, English, Computers, General Knowledge,
-    Space, Animals, Nature and other educational topics.
-    """
-
-    response = llm.invoke([
-        SystemMessage(content=system_prompt),
-        HumanMessage(content=question)
-    ])
-
-    return response.content
 
 
 # ============================================================
