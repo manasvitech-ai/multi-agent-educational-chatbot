@@ -29,7 +29,7 @@ if not GROQ_API_KEY:
 # 🤖 LANGUAGE MODELS
 # ============================================================
 
-# Main LLM used by Manager, Study and Kids agents
+# Main LLM used by Manager and Study agents
 llm = ChatGroq(
     model="openai/gpt-oss-20b",
     temperature=0.7,
