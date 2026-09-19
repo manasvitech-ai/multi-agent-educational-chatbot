@@ -4,9 +4,9 @@
     --text: #171923;
     --muted: #73798b;
     --border: #e8eaf1;
-    --accent: #6657e8;
-    --accent-2: #8275f3;
-    --soft-accent: #efedff;
+ --accent: #1f4e79;
+--accent-2: #2f6ea5;
+--soft-accent: #eaf2fb;
     --sidebar: #fbfbfd;
     --shadow: 0 12px 40px rgba(35, 31, 76, .08);
 }
@@ -57,8 +57,8 @@ button { cursor: pointer; }
     border-radius: 13px;
     color: white;
     font-size: 22px;
-    background: linear-gradient(135deg, var(--accent), #9b8fff);
-    box-shadow: 0 8px 20px rgba(102,87,232,.22);
+  background: #1f4e79;
+box-shadow: none;
 }
 
 .brand-name { font-weight: 800; font-size: 17px; letter-spacing: -.3px; }
